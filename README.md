@@ -5,40 +5,63 @@
     <title>Study Help</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #dfe9f3, #ffffff);
             text-align: center;
-            padding: 50px;
-            background-color: #f5f5f5;
-        }
-        h1 {
             color: #333;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            text-decoration: none;
-            color: white;
-            background-color: #007BFF;
-            padding: 10px 20px;
-            border-radius: 5px;
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
         }
+
+        p {
+            font-size: 24px;
+            margin-bottom: 60px;
+        }
+
         .footer {
-            margin-top: 40px;
-            color: #777;
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 16px;
+            color: #888;
+        }
+
+        .link-button {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .link-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to Study Help</h1>
-    <p>If you need help with your studies, you can use the link below:</p>
-    
-    <!-- ChatGPT or Google link -->
-    <a href="https://chat.openai.com" target="_blank">Go to ChatGPT</a>
 
-    <!-- Made by section -->
+    <h1>Need Help With Study?</h1>
+    <p>Your learning journey starts here. Ask anything. Learn everything.</p>
+
+    <!-- ChatGPT or Google Link -->
+    <a href="https://chat.openai.com" class="link-button" target="_blank">Go to ChatGPT</a>
+
+    <!-- Bottom right text -->
     <div class="footer">
-        <p>Made by Arnob</p>
-        <p>COMING SOON</p>
+        Made by Arnob
     </div>
+
 </body>
 </html>
