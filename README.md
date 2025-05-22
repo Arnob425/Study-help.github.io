@@ -119,7 +119,7 @@
     }
 
     async function getGPTReply(prompt) {
-      const apiKey = 'YOUR_OPENAI_API_KEY'; // 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
+      const apiKey = 'YOUR_OPENAI_API_KEY'; // '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' ;
       const url = 'https://api.openai.com/v1/chat/completions';
 
       try {
