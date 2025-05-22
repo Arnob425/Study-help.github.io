@@ -1,67 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Study Help</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(to right, #dfe9f3, #ffffff);
-            text-align: center;
-            color: #333;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+  <meta charset="UTF-8">
+  <title>AB AI Chatbot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
 
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
+    header {
+      background-color: #1f1f1f;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      color: #00bcd4;
+    }
 
-        p {
-            font-size: 24px;
-            margin-bottom: 60px;
-        }
+    #chatbox {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
 
-        .footer {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            font-size: 16px;
-            color: #888;
-        }
+    .user, .bot {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 70%;
+    }
 
-        .link-button {
-            background-color: #007BFF;
-            color: white;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-        }
+    .user {
+      background-color: #007bff;
+      align-self: flex-end;
+      text-align: right;
+    }
 
-        .link-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    .bot {
+      background-color: #333;
+      align-self: flex-start;
+      text-align: left;
+    }
+
+    #inputArea {
+      display: flex;
+      padding: 15px;
+      background-color: #1f1f1f;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #00bcd4;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 5px;
+      right: 10px;
+      font-size: 14px;
+      color: #ff9800;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
-    <h1>Need Help With Study?</h1>
-    <p>Your learning journey starts here. Ask anything. Learn everything.</p>
+  <header>AB AI - Ask Anything, Learn Everything</header>
 
-    <!-- ChatGPT or Google Link -->
-    <a href="https://chat.openai.com" class="link-button" target="_blank">Go to ChatGPT</a>
+  <div id="chatbox"></div>
 
-    <!-- Bottom right text -->
-    <div class="footer">
-        Made by Arnob
-    </div>
+  <div id="inputArea">
+    <input type="text" id="userInput" placeholder="Type your question..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
 
+  <div class="footer">Made by Arnob</div>
+
+  <script>
+    const chatbox = document.getElementById('chatbox');
+
+    async function sendMessage() {
+      const inputField = document.getElementById('userInput');
+      const userText = inputField.value.trim();
+      if (!userText) return;
+
+      showMessage(userText, 'user');
+      inputField.value = '';
+
+      const reply = await getGPTReply(userText);
+      showMessage(reply, 'bot');
+    }
+
+    function showMessage(message, sender) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = sender;
+      msgDiv.textContent = message;
+      chatbox.appendChild(msgDiv);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    async function getGPTReply(prompt) {
+      const apiKey = 'YOUR_OPENAI_API_KEY'; // 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
+      const url = 'https://api.openai.com/v1/chat/completions';
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'gpt-3.5-turbo',
+            messages: [{ role: 'user', content: prompt }]
+          })
+        });
+
+        const data = await response.json();
+        return data.choices[0].message.content.trim();
+      } catch (err) {
+        return 'Sorry, something went wrong.';
+      }
+    }
+  </script>
 </body>
 </html>
