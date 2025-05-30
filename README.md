@@ -2,145 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AB AI Chatbot</title>
+  <title>Pay with bKash</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #121212;
-      color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    header {
-      background-color: #1f1f1f;
-      padding: 20px;
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
       text-align: center;
-      font-size: 28px;
-      color: #00bcd4;
     }
-
-    #chatbox {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
+    img {
+      width: 200px;
+      margin: 20px 0;
     }
-
-    .user, .bot {
-      margin-bottom: 15px;
+    input, button {
       padding: 10px;
-      border-radius: 8px;
-      max-width: 70%;
-    }
-
-    .user {
-      background-color: #007bff;
-      align-self: flex-end;
-      text-align: right;
-    }
-
-    .bot {
-      background-color: #333;
-      align-self: flex-start;
-      text-align: left;
-    }
-
-    #inputArea {
-      display: flex;
-      padding: 15px;
-      background-color: #1f1f1f;
-    }
-
-    input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
+      margin: 10px 0;
+      width: 80%;
       font-size: 16px;
-      margin-right: 10px;
-    }
-
-    button {
-      padding: 10px 15px;
-      background-color: #00bcd4;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 5px;
-      right: 10px;
-      font-size: 14px;
-      color: #ff9800;
-      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <header>AB AI - Ask Anything, Learn Everything</header>
+  <h2>Pay with bKash</h2>
+  <p>Scan the QR code below to complete your payment.</p>
 
-  <div id="chatbox"></div>
+  <!-- Replace this with your actual QR code image -->
+  <img src="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=01891669706" alt="bKash QR Code">
 
-  <div id="inputArea">
-    <input type="text" id="userInput" placeholder="Type your question..." />
-    <button onclick="sendMessage()">Send</button>
-  </div>
+  <p>After you send the money, enter your Transaction ID below:</p>
 
-  <div class="footer">Made by Arnob</div>
+  <form action="confirm.php" method="post">
+    <input type="text" name="trxid" placeholder="Enter Transaction ID" required><br>
+    <button type="submit">Confirm Payment</button>
+  </form>
 
-  <script>
-    const chatbox = document.getElementById('chatbox');
-
-    async function sendMessage() {
-      const inputField = document.getElementById('userInput');
-      const userText = inputField.value.trim();
-      if (!userText) return;
-
-      showMessage(userText, 'user');
-      inputField.value = '';
-
-      const reply = await getGPTReply(userText);
-      showMessage(reply, 'bot');
-    }
-
-    function showMessage(message, sender) {
-      const msgDiv = document.createElement('div');
-      msgDiv.className = sender;
-      msgDiv.textContent = message;
-      chatbox.appendChild(msgDiv);
-      chatbox.scrollTop = chatbox.scrollHeight;
-    }
-
-    async function getGPTReply(prompt) {
-      const apiKey = 'YOUR_OPENAI_API_KEY'; // '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' ;
-      const url = 'https://api.openai.com/v1/chat/completions';
-
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
-            messages: [{ role: 'user', content: prompt }]
-          })
-        });
-
-        const data = await response.json();
-        return data.choices[0].message.content.trim();
-      } catch (err) {
-        return 'Sorry, something went wrong.';
-      }
-    }
-  </script>
 </body>
 </html>
